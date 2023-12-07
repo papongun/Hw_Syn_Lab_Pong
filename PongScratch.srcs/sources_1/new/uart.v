@@ -22,7 +22,9 @@
 module uart (
     input clk,
     input RsRx,
-    output RsTx
+    output RsTx,
+    output received,
+    output [7:0] data
 );
     
     wire baud;
@@ -30,6 +32,8 @@ module uart (
     wire [7:0] data_receive;
     reg [7:0] data_send;
     reg en;
+    
+    assign data = data_receive;
 
     baudrate_gen baudgen(baud, clk);
     transmitter t(RsTx, sent, data_send, en, baud);
