@@ -45,9 +45,9 @@ module gameLogic(
     initial begin
         counter <= 0;
         dequeue <= 0;
-        paddle_1_x <= 0;
+        paddle_1_x <= 20;
         paddle_1_y <= 0;
-        paddle_2_x <= 0;
+        paddle_2_x <= 610;
         paddle_2_y <= 0;
         paddle_width <= 10;
         paddle_height <= 120;
@@ -68,27 +68,27 @@ module gameLogic(
     always @ (posedge clk or posedge reset) begin
         if (counter > update_rate) begin
             // p1 up
-            if (move_signal == 8'h77 && paddle_1_y - paddle_height > paddle_speed) begin
+            if (move_signal == 8'h77 & paddle_1_y - paddle_height > paddle_speed) begin
                 paddle_1_y <= paddle_1_y - paddle_speed;
             end
             
             // p1 down
-            if (move_signal == 8'h73 && paddle_1_y < 640) begin
+            else if (move_signal == 8'h73 & paddle_1_y < 640) begin
                 paddle_1_y <= paddle_1_y + paddle_speed;
             end
             
             // p2 up
-            if (move_signal == 8'h70 && paddle_2_y - paddle_height > paddle_speed) begin
+            else if (move_signal == 8'h70 & paddle_2_y - paddle_height > paddle_speed) begin
                 paddle_2_y <= paddle_2_y - paddle_speed;
             end
             
             // p2 down
-            if (move_signal == 8'h6C && paddle_2_y < 640) begin
+            else if (move_signal == 8'h6C & paddle_2_y < 640) begin
                 paddle_2_y <= paddle_2_y + paddle_speed;
             end
             
             // start ball
-            if (move_signal == 8'h20) begin
+            else if (move_signal == 8'h20) begin
                 
             end
             

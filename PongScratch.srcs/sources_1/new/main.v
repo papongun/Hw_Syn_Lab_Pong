@@ -56,7 +56,9 @@ module main(
     wire dot;
     assign dot = 1;
     
+    wire [31:0] paddle_1_x;
     wire [31:0] paddle_1_y;
+    wire [31:0] paddle_2_x;
     wire [31:0] paddle_2_y;
     wire [31:0] paddle_width;
     wire [31:0] paddle_height;
@@ -70,8 +72,10 @@ module main(
         clk, 
         reset, 
         queue_out, 
-        dequeue, 
+        dequeue,
+        paddle_1_x,
         paddle_1_y,
+        paddle_2_x,
         paddle_2_y,
         paddle_width,
         paddle_height,
@@ -82,6 +86,6 @@ module main(
         score_2
     );
     
-    segTDM segment_controller(clk_div[19],score_1[7:4],score_1[3:0],score_2[7:4],score_2[3:0],seg,an,dot);
+    segTDM segment_controller(clk_div[19],paddle_1_y[7:4],paddle_1_y[3:0],paddle_2_y[7:4],paddle_2_y[3:0],seg,an,dot);
     
 endmodule
