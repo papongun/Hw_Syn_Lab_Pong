@@ -22,17 +22,25 @@
 
 module gameLogic(
     input wire clk,
+    input wire reset,
     input wire [7:0] move_signal,
     output reg dequeue,
-    output reg [15:0] score_test
+    output reg [31:0] paddle_1_y,
+    output reg [31:0] paddle_2_y,
+    output reg [31:0] paddle_width,
+    output reg [31:0] paddle_height,
+    output reg [31:0] ball_x,
+    output reg [31:0] ball_y,
+    output reg [31:0] ball_rad,
+    output reg [7:0] score_1,
+    output reg [7:0] score_2
     );
     
-    parameter update_rate = 100000000;
+    parameter update_rate = 1000000;
     reg [31:0] counter;
     
     initial begin
         counter <= 0;
-        score_test <= 0;
         dequeue <= 0;
     end
     

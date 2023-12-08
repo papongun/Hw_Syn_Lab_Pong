@@ -52,10 +52,36 @@ module main(
         clockDivider div1(clk_div[i],clk_div[i+1]);
     end endgenerate
     
-    wire [15:0] score;
+    
     wire dot;
     assign dot = 1;
-    gameLogic game(clk, queue_out, dequeue, score);
-    segTDM segment_controller(clk_div[19],queue_out[7:4],queue_out[3:0],score[7:4],score[3:0],seg,an,dot);
+    
+    wire [31:0] paddle_1_y;
+    wire [31:0] paddle_2_y;
+    wire [31:0] paddle_width;
+    wire [31:0] paddle_height;
+    wire [31:0] ball_x;
+    wire [31:0] ball_y;
+    wire [31:0] ball_rad;
+    wire [7:0] score_1;
+    wire [7:0] score_2;
+    
+    gameLogic game(
+        clk, 
+        reset, 
+        queue_out, 
+        dequeue, 
+        paddle_1_y,
+        paddle_2_y,
+        paddle_width,
+        paddle_height,
+        ball_x,
+        ball_y,
+        ball_rad,
+        score_1,
+        score_2
+    );
+    
+    segTDM segment_controller(clk_div[19],score_1[7:4],score_1[3:0],score_2[7:4],score_2[3:0],seg,an,dot);
     
 endmodule
