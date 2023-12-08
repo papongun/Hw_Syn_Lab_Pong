@@ -22,12 +22,12 @@
 
 module gameLogic(
     input wire clk,
-    input wire move_signal,
+    input wire [7:0] move_signal,
     output reg dequeue,
     output reg [15:0] score_test
     );
     
-    parameter update_rate = 100;
+    parameter update_rate = 100000000;
     reg [31:0] counter;
     
     initial begin
@@ -41,15 +41,15 @@ module gameLogic(
         if (counter > update_rate) counter <= 0;
     end
     
-//    always @ (posedge clk) begin
-//        if (counter >= update_rate) begin
-//            if (move_signal == 8'h77) begin
-//                score_test <= score_test + 1;
-//            end
-//            dequeue <= 1;
-//        end
-//        else dequeue <= 0;
-//    end
+    always @ (posedge clk) begin
+        if (counter > update_rate) begin
+            if (move_signal == 8'h77) begin
+                score_test <= score_test + 1;
+            end
+            dequeue <= 1;
+        end
+        else dequeue <= 0;
+    end
     
     
 endmodule
