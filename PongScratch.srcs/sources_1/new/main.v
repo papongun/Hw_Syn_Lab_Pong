@@ -24,6 +24,7 @@ module main(
     input clk,
     input RsRx,
     input btnU,
+    input [1:0] sw,
     //input btnD,
     output RsTx,
     output [6:0] seg,
@@ -52,6 +53,11 @@ module main(
         clockDivider div1(clk_div[i],clk_div[i+1]);
     end endgenerate
     
+    //vga
+    assign vgaBlue = {rgb_out[3],rgb_out[2],rgb_out[1],rgb_out[0]}; // assign rgb_out to vgaBlue, vgaGreen, vgaRed
+    assign vgaGreen = {rgb_out[7],rgb_out[6],rgb_out[5],rgb_out[4]};
+    assign vgaRed = {rgb_out[11],rgb_out[10],rgb_out[9],rgb_out[8]};
+
     
     wire dot;
     assign dot = 1;
@@ -67,7 +73,7 @@ module main(
     wire [31:0] ball_rad;
     wire [7:0] score_1;
     wire [7:0] score_2;
-    
+
     gameLogic game(
         clk, 
         reset, 
@@ -85,6 +91,31 @@ module main(
         score_1,
         score_2
     );
+    
+    wire [11:0] rgb_out;
+    wire [9:0] x,y;
+    GUI gui(
+        clk,
+        sw[0],
+        x,
+        y,
+        1, 
+        paddle_1_x,
+        paddle_1_y,
+        paddle_2_x,
+        paddle_2_y,
+        paddle_width,
+        paddle_height,
+        ball_x,
+        ball_y,
+        ball_rad,
+        score_1,
+        score_2,
+    );
+    
+    vga_sync vga_render(.clk(clk), .reset(reset), .hsync(Hsync), .vsync(Vsync),
+                                .video_on(video_on), .p_tick(), .x(x), .y(y)); // vga render
+
     
     segTDM segment_controller(clk_div[19],paddle_1_y[7:4],paddle_1_y[3:0],paddle_2_y[7:4],paddle_2_y[3:0],seg,an,dot);
     
