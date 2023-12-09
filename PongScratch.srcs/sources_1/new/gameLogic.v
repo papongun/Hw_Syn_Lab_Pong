@@ -39,7 +39,11 @@ module gameLogic(
     );
     
     parameter paddle_speed = 16;
+    parameter ball_speed = 8;
     reg [19:0] counter;
+    reg is_playing;
+    reg is_ball_up;
+    reg is_ball_right;
     
     initial begin
         counter <= 0;
@@ -55,6 +59,9 @@ module gameLogic(
         ball_rad <= 8;
         score_1 <= 0;
         score_2 <= 0;
+        is_playing <= 0;
+        is_ball_up <= 0;
+        is_ball_right <= 0;
     end
     
     always @ (posedge clk) begin
@@ -73,6 +80,9 @@ module gameLogic(
             score_2 <= 0;
             counter <= 0;
             dequeue <= 0;
+            is_playing <= 0;
+            is_ball_up <= 0;
+            is_ball_right <= 0;
         end
         
         else if (counter == 20'b11111111111111111111) begin
@@ -100,7 +110,72 @@ module gameLogic(
             end
             
             // start ball
-            else if (move_signal == 8'h20) begin
+            else if (move_signal == 8'h20 & !is_playing) begin
+                is_playing <= 1;
+            end
+            
+            // playing logic
+            if (is_playing) begin
+                 
+                // move left/right
+                if (is_ball_right) begin
+                    ball_x <= ball_x + ball_speed;
+                end
+                else begin
+                    ball_x <= ball_x - ball_speed;
+                end
+                
+                // move up/down
+                if (is_ball_up) begin
+                    ball_y <= ball_y - ball_speed;
+                end
+                else begin
+                    ball_y <= ball_y + ball_speed;
+                end
+                
+                // top/down collide
+                if (ball_y < 32) begin
+                    is_ball_up <= 0;
+                end
+                else if (ball_y > 480) begin
+                    is_ball_up <= 1;
+                end
+                
+                // paddle collide
+                if (ball_x == paddle_1_x + paddle_width & ball_y <= paddle_1_y & ball_y >= paddle_1_y - paddle_height) begin
+                    is_ball_right <= 1;
+                end
+                if (ball_x == paddle_2_x & ball_y <= paddle_2_y & ball_y >= paddle_2_y - paddle_height) begin
+                    is_ball_right <= 0;
+                end
+                
+                // left/right out of frame
+                if (ball_x < 1) begin
+                    if (score_2[3:0] < 9) begin
+                        score_2[3:0] <= score_2[3:0] + 1;
+                    end
+                    else if (score_2[7:4] < 9) begin
+                        score_2[3:0] <= 0;
+                        score_2[7:4] <= score_2[7:4] + 1;
+                    end
+                    is_playing <= 0;
+                    is_ball_right <= ~is_ball_right;
+                    ball_x <= 300;
+                    ball_y <= 300;
+                end
+                else if (ball_x > 640) begin
+                    if (score_1[3:0] < 9) begin
+                        score_1[3:0] <= score_1[3:0] + 1;
+                    end
+                    else if (score_1[7:4] < 9) begin
+                        score_1[3:0] <= 0;
+                        score_1[7:4] <= score_1[7:4] + 1;
+                    end
+                    is_playing <= 0;
+                    is_ball_right <= ~is_ball_right;
+                    ball_x <= 300;
+                    ball_y <= 300;
+                end
                 
             end
         end
