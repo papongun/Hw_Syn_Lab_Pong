@@ -33,7 +33,8 @@ module main(
     output wire [3:0] vgaGreen,
     output wire [3:0] vgaBlue,
     output wire Hsync,
-    output wire Vsync
+    output wire Vsync,
+    output wire [15:0] led
     );
 
     wire received;
@@ -76,7 +77,7 @@ module main(
 
     gameLogic game(
         clk, 
-        reset, 
+        btnU, 
         queue_out, 
         dequeue,
         paddle_1_x,
@@ -94,12 +95,13 @@ module main(
     
     wire [11:0] rgb_out;
     wire [9:0] x,y;
+	wire video_on;
     GUI gui(
         clk,
         sw[0],
         x,
         y,
-        1, 
+        video_on, 
         paddle_1_x,
         paddle_1_y,
         paddle_2_x,
@@ -111,12 +113,14 @@ module main(
         ball_rad,
         score_1,
         score_2,
+        rgb_out
     );
     
     vga_sync vga_render(.clk(clk), .reset(reset), .hsync(Hsync), .vsync(Vsync),
                                 .video_on(video_on), .p_tick(), .x(x), .y(y)); // vga render
 
     
-    segTDM segment_controller(clk_div[19],paddle_1_y[7:4],paddle_1_y[3:0],paddle_2_y[7:4],paddle_2_y[3:0],seg,an,dot);
+    segTDM segment_controller(clk_div[19],queue_out[7:4],queue_out[3:0],paddle_2_y[7:4],paddle_2_y[3:0],seg,an,dot);
     
+    assign led[15] = btnU;
 endmodule
