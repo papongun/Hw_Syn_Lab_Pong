@@ -74,7 +74,7 @@ module main(
     wire [31:0] ball_rad;
     wire [7:0] score_1;
     wire [7:0] score_2;
-
+    
     gameLogic game(
         clk, 
         btnU, 
@@ -121,6 +121,7 @@ module main(
 
     
     segTDM segment_controller(clk_div[19],queue_out[7:4],queue_out[3:0],paddle_2_y[7:4],paddle_2_y[3:0],seg,an,dot);
+
     
-    assign led[15] = btnU;
+    
 endmodule
