@@ -4,7 +4,7 @@
 <!-- Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.                   -->
 <!-- Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.   -->
 
-<Project Product="Vivado" Version="7" Minor="63" Path="D:/2023-1/HwSynLab/PongScratch/PongScratch.xpr">
+<Project Product="Vivado" Version="7" Minor="63" Path="C:/Users/Lenovo/Documents/GitHub/Hw_Syn_Lab_Pong/PongScratch.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
     <Option Name="Id" Val="dc78f43c73c845c2b991fc099f3c6375"/>
@@ -198,7 +198,7 @@
       <Filter Type="Constrs"/>
       <File Path="$PSRCDIR/constrs_1/imports/Downloads/Basys-3-Master.xdc">
         <FileInfo>
-          <Attr Name="ImportPath" Val="C:/Users/papon/Downloads/Basys-3-Master.xdc"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../../../papon/Downloads/Basys-3-Master.xdc"/>
           <Attr Name="ImportTime" Val="1694429709"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
