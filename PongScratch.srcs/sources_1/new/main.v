@@ -120,7 +120,7 @@ module main(
                                 .video_on(video_on), .p_tick(), .x(x), .y(y)); // vga render
 
     
-    segTDM segment_controller(clk_div[19],queue_out[7:4],queue_out[3:0],paddle_2_y[7:4],paddle_2_y[3:0],seg,an,dot);
+    segTDM segment_controller(clk_div[19],score_1[7:4],score_1[3:0],score_2[7:4],score_2[3:0],seg,an,dot);
 
     
     
