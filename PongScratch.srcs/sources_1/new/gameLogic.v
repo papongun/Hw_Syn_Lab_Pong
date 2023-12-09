@@ -39,7 +39,7 @@ module gameLogic(
     );
     
     parameter paddle_speed = 16;
-    parameter ball_speed = 8;
+    parameter ball_speed = 2;
     reg [19:0] counter;
     reg is_playing;
     reg is_ball_up;
@@ -52,8 +52,8 @@ module gameLogic(
         paddle_1_y <= 380;
         paddle_2_x <= 610;
         paddle_2_y <= 380;
-        paddle_width <= 10;
-        paddle_height <= 120;
+        paddle_width <= 16;
+        paddle_height <= 96;
         ball_x <= 300;
         ball_y <= 300;
         ball_rad <= 8;
@@ -142,10 +142,10 @@ module gameLogic(
                 end
                 
                 // paddle collide
-                if (ball_x == paddle_1_x + paddle_width & ball_y <= paddle_1_y & ball_y >= paddle_1_y - paddle_height) begin
+                if (ball_x >= paddle_1_x & ball_x <= paddle_1_x + paddle_width & ball_y <= paddle_1_y & ball_y >= paddle_1_y - paddle_height) begin
                     is_ball_right <= 1;
                 end
-                if (ball_x == paddle_2_x & ball_y <= paddle_2_y & ball_y >= paddle_2_y - paddle_height) begin
+                if (ball_x >= paddle_2_x & ball_x <= paddle_2_x + paddle_width & ball_y <= paddle_2_y & ball_y >= paddle_2_y - paddle_height) begin
                     is_ball_right <= 0;
                 end
                 
@@ -160,6 +160,7 @@ module gameLogic(
                     end
                     is_playing <= 0;
                     is_ball_right <= ~is_ball_right;
+                    is_ball_up <= 0;
                     ball_x <= 300;
                     ball_y <= 300;
                 end
@@ -173,6 +174,7 @@ module gameLogic(
                     end
                     is_playing <= 0;
                     is_ball_right <= ~is_ball_right;
+                    is_ball_up <= 0;
                     ball_x <= 300;
                     ball_y <= 300;
                 end
