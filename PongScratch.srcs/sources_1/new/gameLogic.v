@@ -92,13 +92,11 @@ module gameLogic(
                 
             end
             
-                       
             dequeue <= 1;
         end
-                
         else dequeue <= 0;
-            
-         // reset
+        
+        // reset
         if (reset) begin
             ball_x <= 300;
             ball_y <= 300;
@@ -106,7 +104,7 @@ module gameLogic(
             score_2 <= 0;
             counter <= 0;
         end
-
+        
     end
     
     // running ball
