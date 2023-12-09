@@ -134,18 +134,18 @@ module gameLogic(
                 end
                 
                 // top/down collide
-                if (ball_y < 32) begin
+                if (ball_y - ball_rad < 8) begin
                     is_ball_up <= 0;
                 end
-                else if (ball_y > 480) begin
+                else if (ball_y + ball_rad > 480) begin
                     is_ball_up <= 1;
                 end
                 
                 // paddle collide
-                if (ball_x >= paddle_1_x & ball_x <= paddle_1_x + paddle_width & ball_y <= paddle_1_y & ball_y >= paddle_1_y - paddle_height) begin
+                if (ball_x - ball_rad >= paddle_1_x & ball_x <= paddle_1_x + paddle_width & ball_y <= paddle_1_y & ball_y >= paddle_1_y - paddle_height) begin
                     is_ball_right <= 1;
                 end
-                if (ball_x >= paddle_2_x & ball_x <= paddle_2_x + paddle_width & ball_y <= paddle_2_y & ball_y >= paddle_2_y - paddle_height) begin
+                if (ball_x + ball_rad >= paddle_2_x & ball_x <= paddle_2_x + paddle_width & ball_y <= paddle_2_y & ball_y >= paddle_2_y - paddle_height) begin
                     is_ball_right <= 0;
                 end
                 
