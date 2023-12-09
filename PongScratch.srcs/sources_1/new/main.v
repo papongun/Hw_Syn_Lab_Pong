@@ -70,7 +70,7 @@ module main(
     
     gameLogic game(
         clk, 
-        reset, 
+        btnU, 
         queue_out, 
         dequeue,
         paddle_1_x,
@@ -85,7 +85,33 @@ module main(
         score_1,
         score_2
     );
+
+    wire [11:0] rgb_out;
+    wire [9:0] x,y;
+    wire video_on;
+    GUI gui(
+        clk,
+        sw[0],
+        x,
+        y,
+        video_on, 
+        paddle_1_x,
+        paddle_1_y,
+        paddle_2_x,
+        paddle_2_y,
+        paddle_width,
+        paddle_height,
+        ball_x,
+        ball_y,
+        ball_rad,
+        score_1,
+        score_2,
+        rgb_out
+    );
     
+    vga_sync vga_render(.clk(clk), .reset(reset), .hsync(Hsync), .vsync(Vsync),
+                                .video_on(video_on), .p_tick(), .x(x), .y(y)); // vga render
+
     segTDM segment_controller(clk_div[19],paddle_1_y[7:4],paddle_1_y[3:0],paddle_2_y[7:4],paddle_2_y[3:0],seg,an,dot);
     
 endmodule
