@@ -48,7 +48,7 @@ module gameLogic(
         paddle_1_x <= 20;
         paddle_1_y <= 380;
         paddle_2_x <= 610;
-        paddle_2_y <= 38;
+        paddle_2_y <= 380;
         paddle_width <= 10;
         paddle_height <= 120;
         ball_x <= 300;
@@ -100,9 +100,12 @@ module gameLogic(
         if (reset) begin
             ball_x <= 300;
             ball_y <= 300;
+            paddle_1_y <= 380;
+            paddle_2_y <= 380;
             score_1 <= 0;
             score_2 <= 0;
             counter <= 0;
+            dequeue <= 0;
         end
         
     end
